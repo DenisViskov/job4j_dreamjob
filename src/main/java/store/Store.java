@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Class of Store
@@ -30,6 +31,11 @@ public class Store {
      * Candidates
      */
     private Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
+
+    /**
+     * Post ID
+     */
+    private static AtomicInteger POST_ID = new AtomicInteger(4);
 
     private Store() {
         posts.put(1, new Post(1, "Junior Java Job", null, LocalDateTime.now()));
@@ -65,5 +71,15 @@ public class Store {
      */
     public Collection<Candidate> findAllCandidates() {
         return candidates.values();
+    }
+
+    /**
+     * Method of save post
+     *
+     * @param post
+     */
+    public void save(Post post) {
+        post.setId(POST_ID.incrementAndGet());
+        posts.put(post.getId(), post);
     }
 }
