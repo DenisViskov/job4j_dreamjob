@@ -12,65 +12,39 @@ import java.util.Objects;
  */
 public class Candidate {
     /**
+     * ID
+     */
+    private final int id;
+
+    /**
      * Name
      */
     private final String name;
 
-    /**
-     * Last Name
-     */
-    private final String lastName;
-
-    /**
-     * Position
-     */
-    private final String position;
-
-    /**
-     * Birth date
-     */
-    private final LocalDate birthDate;
-
-    public Candidate(String name, String lastName, String position, LocalDate birthDate) {
+    public Candidate(int id, String name) {
+        this.id = id;
         this.name = name;
-        this.lastName = lastName;
-        this.position = position;
-        this.birthDate = birthDate;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Candidate candidate = (Candidate) o;
-        return Objects.equals(name, candidate.name)
-                && Objects.equals(lastName, candidate.lastName)
-                && Objects.equals(position, candidate.position)
-                && Objects.equals(birthDate, candidate.birthDate);
+        return id == candidate.id &&
+                Objects.equals(name, candidate.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, lastName, position, birthDate);
+        return Objects.hash(id, name);
     }
 }
