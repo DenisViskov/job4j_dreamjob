@@ -14,7 +14,7 @@ public class Candidate {
     /**
      * ID
      */
-    private final int id;
+    private int id;
 
     /**
      * Name
@@ -32,6 +32,10 @@ public class Candidate {
 
     public String getName() {
         return name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
