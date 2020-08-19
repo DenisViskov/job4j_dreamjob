@@ -14,7 +14,7 @@ public class Post {
     /**
      * ID
      */
-    private final int id;
+    private int id;
 
     /**
      * Name
@@ -52,6 +52,10 @@ public class Post {
 
     public LocalDateTime getCreated() {
         return created;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
