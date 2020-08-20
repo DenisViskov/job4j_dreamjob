@@ -23,7 +23,7 @@ public class PostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("posts", Store.instOf().findAllPosts());
-        req.getRequestDispatcher("posts.jsp").forward(req, resp);
+        req.getRequestDispatcher("post/posts.jsp").forward(req, resp);
     }
 
     @Override
@@ -37,6 +37,6 @@ public class PostServlet extends HttpServlet {
                         LocalDateTime.now()
                 )
         );
-        resp.sendRedirect(req.getContextPath() + "/post/posts.do");
+        resp.sendRedirect(req.getContextPath() + "/posts.do");
     }
 }
