@@ -20,7 +20,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CandidateServlet</servlet-name>
-        <url-pattern>/candidate/save</url-pattern>
+        <url-pattern>/candidates.do</url-pattern>
     </servlet-mapping>
 
     <servlet>
