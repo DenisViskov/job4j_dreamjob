@@ -96,7 +96,9 @@ public class Store {
      * @param candidate
      */
     public void saveCandidate(Candidate candidate) {
-        candidate.setId(CANDIDATE_ID.incrementAndGet());
+        if (candidate.getId() == 0) {
+            candidate.setId(CANDIDATE_ID.incrementAndGet());
+        }
         candidates.put(candidate.getId(), candidate);
     }
 
@@ -108,5 +110,15 @@ public class Store {
      */
     public Post findById(int id) {
         return posts.get(id);
+    }
+
+    /**
+     * Method returns candidate by given ID
+     *
+     * @param id
+     * @return Candidate
+     */
+    public Candidate findByIdCandidate(int id) {
+        return candidates.get(id);
     }
 }
