@@ -19,6 +19,13 @@ import java.time.LocalDateTime;
  * @since 19.08.2020
  */
 public class PostServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("posts", Store.instOf().findAllPosts());
+        req.getRequestDispatcher("posts.jsp").forward(req, resp);
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -30,6 +37,6 @@ public class PostServlet extends HttpServlet {
                         LocalDateTime.now()
                 )
         );
-        resp.sendRedirect(req.getContextPath() + "/post/posts.jsp");
+        resp.sendRedirect(req.getContextPath() + "/post/posts.do");
     }
 }
