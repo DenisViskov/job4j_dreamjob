@@ -6,7 +6,7 @@
   Page to create new candidate
 --%>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="store.Store" %>
+<%@ page import="store.MemStore" %>
 <%@ page import="model.Post" %>
 <%@ page import="model.Candidate" %>
 <%@ page import="java.time.LocalDateTime" %>
@@ -37,7 +37,7 @@
     String id = request.getParameter("id");
     Candidate candidate = new Candidate(0, "");
     if (id != null) {
-        candidate = Store.instOf().findByIdCandidate(Integer.valueOf(id));
+        candidate = MemStore.instOf().findByIdCandidate(Integer.valueOf(id));
     }
 %>
 <div class="container pt-3">

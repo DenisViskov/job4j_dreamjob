@@ -6,7 +6,7 @@
   Page for create new job
 --%>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="store.Store" %>
+<%@ page import="store.MemStore" %>
 <%@ page import="model.Post" %>
 <%@ page import="java.time.LocalDateTime" %>
 <!doctype html>
@@ -36,7 +36,7 @@
     String id = request.getParameter("id");
     Post post = new Post(0, "", null, LocalDateTime.now());
     if (id != null) {
-        post = Store.instOf().findById(Integer.valueOf(id));
+        post = MemStore.instOf().findById(Integer.valueOf(id));
     }
 %>
 <div class="container pt-3">

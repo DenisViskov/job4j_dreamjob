@@ -6,7 +6,7 @@
   Posts page
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page import="store.Store" %>
+<%@page import="store.MemStore" %>
 <%@page import="model.Post" %>
 <%@ page import="java.util.Collection" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
