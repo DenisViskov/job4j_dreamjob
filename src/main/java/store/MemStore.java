@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version 1.0
  * @since 18.08.2020
  */
-public class MemStore implements Store{
+public class MemStore implements Store {
     /**
      * Store instance
      */
@@ -98,6 +98,7 @@ public class MemStore implements Store{
      *
      * @param candidate
      */
+    @Override
     public void saveCandidate(Candidate candidate) {
         if (candidate.getId() == 0) {
             candidate.setId(CANDIDATE_ID.incrementAndGet());
@@ -122,6 +123,7 @@ public class MemStore implements Store{
      * @param id
      * @return Candidate
      */
+    @Override
     public Candidate findByIdCandidate(int id) {
         return candidates.get(id);
     }

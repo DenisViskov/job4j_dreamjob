@@ -10,19 +10,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
 /**
+ * Class is a psql Store
+ *
  * @author Денис Висков
  * @version 1.0
  * @since 21.08.2020
  */
 public class PsqlStore implements Store {
 
+    /**
+     * Pool of connection
+     */
     private final BasicDataSource pool = new BasicDataSource();
 
     private PsqlStore() {
@@ -48,14 +52,27 @@ public class PsqlStore implements Store {
         pool.setMaxOpenPreparedStatements(100);
     }
 
+    /**
+     * Singleton initialization
+     */
     private static final class Lazy {
         private static final Store INST = new PsqlStore();
     }
 
+    /**
+     * Method returns store instance
+     *
+     * @return store
+     */
     public static Store instOf() {
         return Lazy.INST;
     }
 
+    /**
+     * Method returns all posts from DB
+     *
+     * @return collection
+     */
     @Override
     public Collection<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
@@ -76,11 +93,34 @@ public class PsqlStore implements Store {
         return posts;
     }
 
+    /**
+     * Method returns all candidates from DB
+     *
+     * @return collection
+     */
     @Override
     public Collection<Candidate> findAllCandidates() {
-        return null;
+        List<Candidate> candidates = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidates")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    candidates.add(new Candidate(it.getInt("id"),
+                            it.getString("name")));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return candidates;
     }
 
+    /**
+     * Method save post into DB
+     *
+     * @param post
+     */
     @Override
     public void save(Post post) {
         if (post.getId() == 0) {
@@ -90,9 +130,16 @@ public class PsqlStore implements Store {
         }
     }
 
+    /**
+     * Method create new post in DB
+     *
+     * @param post
+     * @return post
+     */
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name) VALUES (?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, post.getName());
             ps.execute();
@@ -107,6 +154,11 @@ public class PsqlStore implements Store {
         return post;
     }
 
+    /**
+     * Method update post in DB
+     *
+     * @param post
+     */
     private void update(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("UPDATE post SET name = (?) WHERE id = (?)")) {
@@ -118,6 +170,12 @@ public class PsqlStore implements Store {
         }
     }
 
+    /**
+     * Method return post from DB by given ID
+     *
+     * @param id
+     * @return post
+     */
     @Override
     public Post findById(int id) {
         Post result = null;
@@ -130,6 +188,83 @@ public class PsqlStore implements Store {
                         , post.getString("name"),
                         null,
                         null);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Method save candidate into DB
+     *
+     * @param candidate
+     */
+    @Override
+    public void saveCandidate(Candidate candidate) {
+        if (candidate.getId() == 0) {
+            create(candidate);
+        } else {
+            update(candidate);
+        }
+    }
+
+    /**
+     * Method is an overloading post create and replacement on candidate
+     *
+     * @param candidate
+     * @return candidate
+     */
+    private Candidate create(Candidate candidate) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidates(name) VALUES (?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, candidate.getName());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    candidate.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return candidate;
+    }
+
+    /**
+     * Method is an overloading post update and replacement on candidate
+     *
+     * @param candidate
+     */
+    private void update(Candidate candidate) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("UPDATE candidates SET name = (?) WHERE id = (?)")) {
+            ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getId());
+            ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    /**
+     * Method return candidate from DB by given ID
+     *
+     * @param id
+     * @return candidate
+     */
+    @Override
+    public Candidate findByIdCandidate(int id) {
+        Candidate result = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidates WHERE id = (?)")) {
+            ps.setInt(1, id);
+            ResultSet candidate = ps.executeQuery();
+            while (candidate.next()) {
+                result = new Candidate(candidate.getInt("id")
+                        , candidate.getString("name"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

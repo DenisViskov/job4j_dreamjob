@@ -41,4 +41,19 @@ public interface Store {
      * @return Post
      */
     Post findById(int id);
+
+    /**
+     * Method should save candidate
+     *
+     * @param candidate
+     */
+    void saveCandidate(Candidate candidate);
+
+    /**
+     * Method should return candidate by given ID
+     *
+     * @param id
+     * @return candidate
+     */
+    Candidate findByIdCandidate(int id);
 }
