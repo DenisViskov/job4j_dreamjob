@@ -51,6 +51,10 @@
                 Редактирование кандидата.
                 <% } %>
             </div>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/upload/upload.jsp">Добавить фото</a>
+                </li>
             <div class="card-body">
                 <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>" method="post">
                     <div class="form-group">
