@@ -55,15 +55,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/upload/upload.jsp">Добавить фото</a>
                 </li>
-            <div class="card-body">
-                <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>" method="post">
-                    <div class="form-group">
-                        <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </form>
-            </div>
+                <div class="card-body">
+                    <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>&photo=<%request.getAttribute("name");%>"
+                          method="post">
+                        <div class="form-group">
+                            <label>Имя</label>
+                            <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
         </div>
     </div>
 </div>

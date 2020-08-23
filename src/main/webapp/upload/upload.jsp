@@ -18,7 +18,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+<%
+    String name = "";
+%>
 <div class="container">
     <table class="table">
         <thead>
@@ -36,6 +38,8 @@
                 </td>
             </tr>
         </c:forEach>
+        <td>
+            <a href="<%=request.getContextPath()%>/candidate/edit.jsp?name=<%=name%>">Продолжить</a>
         </tbody>
     </table>
     <h2>Upload image</h2>
