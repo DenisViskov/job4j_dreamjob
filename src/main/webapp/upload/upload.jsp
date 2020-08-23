@@ -37,9 +37,10 @@
                     <img src="<c:url value='/download?name=${image}'/>" width="100px" height="100px"/>
                 </td>
             </tr>
+            <c:set var="nameImage" scope="session" value="${image}"></c:set>
         </c:forEach>
         <td>
-            <a href="<%=request.getContextPath()%>/candidate/edit.jsp?name=<%=name%>">Продолжить</a>
+        <td><a href="<c:url value='/candidate/edit.jsp?name=${nameImage}'/>">Продолжить</a></td>
         </tbody>
     </table>
     <h2>Upload image</h2>
