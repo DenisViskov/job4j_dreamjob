@@ -107,7 +107,8 @@ public class PsqlStore implements Store {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     candidates.add(new Candidate(it.getInt("id"),
-                            it.getString("name")));
+                            it.getString("name"),
+                            it.getString("photo")));
                 }
             }
         } catch (Exception e) {
@@ -264,7 +265,8 @@ public class PsqlStore implements Store {
             ResultSet candidate = ps.executeQuery();
             while (candidate.next()) {
                 result = new Candidate(candidate.getInt("id")
-                        , candidate.getString("name"));
+                        , candidate.getString("name"),
+                        candidate.getString("photo"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
