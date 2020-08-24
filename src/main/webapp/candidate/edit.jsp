@@ -53,7 +53,7 @@
             </div>
                 <div class="card-body">
                     <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>"
-                          method="post">
+                          method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Имя</label>
                             <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">

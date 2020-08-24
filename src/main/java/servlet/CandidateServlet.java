@@ -34,14 +34,12 @@ public class CandidateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletContext servletContext = this.getServletConfig().getServletContext();
         File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
         factory.setRepository(repository);
         ServletFileUpload upload = new ServletFileUpload(factory);
         String name = "";
-        String id = "";
         File file = null;
         try {
             List<FileItem> items = upload.parseRequest(req);
@@ -56,15 +54,12 @@ public class CandidateServlet extends HttpServlet {
                 if ("name".equals(item.getFieldName())) {
                     name = item.getString();
                 }
-                if ("id".equals(item.getFieldName())) {
-                    id = item.getString();
-                }
             }
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
         PsqlStore.instOf().saveCandidate(
-                new Candidate(Integer.valueOf(id),
+                new Candidate(Integer.valueOf(req.getParameter("id")),
                         name,
                         file.getName()));
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
