@@ -18,9 +18,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%
-    String name = "";
-%>
 <div class="container">
     <table class="table">
         <thead>
@@ -37,10 +34,8 @@
                     <img src="<c:url value='/download?name=${image}'/>" width="100px" height="100px"/>
                 </td>
             </tr>
-            <c:set var="nameImage" scope="session" value="${image}"></c:set>
         </c:forEach>
         <td>
-        <td><a href="<c:url value='/candidate/edit.jsp?name=${nameImage}'/>">Продолжить</a></td>
         </tbody>
     </table>
     <h2>Upload image</h2>

@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class is a Candidate servlet
@@ -34,6 +36,24 @@ public class CandidateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Map<String, String> value = extractValues(req);
+        PsqlStore.instOf().saveCandidate(
+                new Candidate(Integer.valueOf(value.get("id")),
+                        value.get("name"),
+                        value.get("file")));
+        resp.sendRedirect(req.getContextPath() + "/candidates.do");
+    }
+
+    /**
+     * Method of import values from request
+     *
+     * @param req
+     * @return Map of <>id</>
+     * <>name</>
+     * <>file</>
+     * @throws IOException
+     */
+    private Map<String, String> extractValues(HttpServletRequest req) throws IOException {
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletContext servletContext = this.getServletConfig().getServletContext();
         File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
@@ -50,6 +70,9 @@ public class CandidateServlet extends HttpServlet {
             for (FileItem item : items) {
                 if (!item.isFormField()) {
                     file = new File(folder + File.separator + item.getName());
+                    try (FileOutputStream out = new FileOutputStream(file)) {
+                        out.write(item.getInputStream().readAllBytes());
+                    }
                 }
                 if ("name".equals(item.getFieldName())) {
                     name = item.getString();
@@ -58,10 +81,8 @@ public class CandidateServlet extends HttpServlet {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
-        PsqlStore.instOf().saveCandidate(
-                new Candidate(Integer.valueOf(req.getParameter("id")),
-                        name,
-                        file.getName()));
-        resp.sendRedirect(req.getContextPath() + "/candidates.do");
+        return Map.of("id", req.getParameter("id"),
+                "name", name,
+                "file", file.getName());
     }
 }
