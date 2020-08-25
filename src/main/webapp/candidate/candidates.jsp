@@ -53,7 +53,13 @@
                                 <a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
-                                <c:out value="${candidate.name}"/>
+                                    <c:out value="${candidate.name}"/>
+                            <td><a href="<c:url value='/delete?id=${candidate.id}'/>">Удалить кандидата</a></td>
+                            <td><a href="<c:url value='/download?name=${candidate.photo}'/>">Download</a></td>
+                            <td>
+                                <img src="<c:url value='/download?name=${candidate.photo}'/>" width="100px"
+                                     height="100px"/>
+                            </td>
                             </td>
                         </tr>
                     </c:forEach>

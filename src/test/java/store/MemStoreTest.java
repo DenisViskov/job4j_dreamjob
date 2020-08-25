@@ -21,7 +21,7 @@ public class MemStoreTest {
 
     @Test
     public void saveCandidateTest() {
-        Candidate candidate = new Candidate(0, "Ivan");
+        Candidate candidate = new Candidate(0, "Ivan", null);
         store.saveCandidate(candidate);
         boolean result = store.findAllCandidates().contains(candidate);
         assertThat(result, is(true));
@@ -37,7 +37,7 @@ public class MemStoreTest {
 
     @Test
     public void findByIdCandidateTest() {
-        Candidate candidate = new Candidate(5, "Candidate");
+        Candidate candidate = new Candidate(5, "Candidate", null);
         store.saveCandidate(candidate);
         Candidate expected = store.findByIdCandidate(5);
         assertThat(expected.getName(), is("Candidate"));

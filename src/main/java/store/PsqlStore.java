@@ -107,7 +107,8 @@ public class PsqlStore implements Store {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     candidates.add(new Candidate(it.getInt("id"),
-                            it.getString("name")));
+                            it.getString("name"),
+                            it.getString("photo")));
                 }
             }
         } catch (Exception e) {
@@ -217,10 +218,11 @@ public class PsqlStore implements Store {
      */
     private Candidate create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidates(name) VALUES (?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidates(name,photo) VALUES (?,?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
+            ps.setString(2, candidate.getPhoto());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -240,9 +242,10 @@ public class PsqlStore implements Store {
      */
     private void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("UPDATE candidates SET name = (?) WHERE id = (?)")) {
+             PreparedStatement ps = cn.prepareStatement("UPDATE candidates SET name = (?),SET photo = (?), WHERE id = (?)")) {
             ps.setString(1, candidate.getName());
-            ps.setInt(2, candidate.getId());
+            ps.setString(2, candidate.getPhoto());
+            ps.setInt(3, candidate.getId());
             ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -264,11 +267,28 @@ public class PsqlStore implements Store {
             ResultSet candidate = ps.executeQuery();
             while (candidate.next()) {
                 result = new Candidate(candidate.getInt("id")
-                        , candidate.getString("name"));
+                        , candidate.getString("name"),
+                        candidate.getString("photo"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return result;
+    }
+
+    /**
+     * Method of delete candidate from DB by given ID
+     *
+     * @param id
+     */
+    @Override
+    public void deleteCandidate(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("DELETE FROM candidates WHERE id = (?)")) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

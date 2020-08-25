@@ -21,9 +21,15 @@ public class Candidate {
      */
     private final String name;
 
-    public Candidate(int id, String name) {
+    /**
+     * Photo name
+     */
+    private String photo;
+
+    public Candidate(int id, String name, String photo) {
         this.id = id;
         this.name = name;
+        this.photo = photo;
     }
 
     public int getId() {
@@ -38,17 +44,26 @@ public class Candidate {
         this.id = id;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Candidate candidate = (Candidate) o;
         return id == candidate.id &&
-                Objects.equals(name, candidate.name);
+                Objects.equals(name, candidate.name) &&
+                Objects.equals(photo, candidate.photo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, photo);
     }
 }
