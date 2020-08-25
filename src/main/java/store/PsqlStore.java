@@ -275,4 +275,20 @@ public class PsqlStore implements Store {
         }
         return result;
     }
+
+    /**
+     * Method of delete candidate from DB by given ID
+     *
+     * @param id
+     */
+    @Override
+    public void deleteCandidate(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("DELETE FROM candidates WHERE id = (?)")) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

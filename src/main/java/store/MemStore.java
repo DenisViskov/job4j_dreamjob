@@ -127,4 +127,14 @@ public class MemStore implements Store {
     public Candidate findByIdCandidate(int id) {
         return candidates.get(id);
     }
+
+    /**
+     * Method of delete candidate by id
+     *
+     * @param id
+     */
+    @Override
+    public void deleteCandidate(int id) {
+        candidates.remove(id);
+    }
 }

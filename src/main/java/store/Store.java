@@ -56,4 +56,11 @@ public interface Store {
      * @return candidate
      */
     Candidate findByIdCandidate(int id);
+
+    /**
+     * Method should delete candidate from storage
+     *
+     * @param id
+     */
+    void deleteCandidate(int id);
 }
