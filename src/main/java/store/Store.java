@@ -74,6 +74,7 @@ public interface Store {
 
     /**
      * Method should return user from store by given email
+     *
      * @param email
      * @return User
      */
