@@ -11,6 +11,7 @@
 <%@ page import="model.Candidate" %>
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="store.PsqlStore" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -43,6 +44,24 @@
 %>
 <div class="container pt-3">
     <div class="row">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/login/login.jsp"> <c:out value="${user.name}"/> |
+                    Выйти</a>
+            </li>
+        </ul>
         <div class="card" style="width: 100%">
             <div class="card-header">
                 <% if (id == null) { %>
@@ -51,19 +70,19 @@
                 Редактирование кандидата.
                 <% } %>
             </div>
-                <div class="card-body">
-                    <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>"
-                          method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label>Имя</label>
-                            <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
-                        </div>
-                        <div class="checkbox">
-                            <input type="file" name="file">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
-                    </form>
-                </div>
+            <div class="card-body">
+                <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>"
+                      method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Имя</label>
+                        <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                    </div>
+                    <div class="checkbox">
+                        <input type="file" name="file">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
