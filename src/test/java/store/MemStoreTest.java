@@ -2,6 +2,7 @@ package store;
 
 import model.Candidate;
 import model.Post;
+import model.User;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -41,5 +42,20 @@ public class MemStoreTest {
         store.saveCandidate(candidate);
         Candidate expected = store.findByIdCandidate(5);
         assertThat(expected.getName(), is("Candidate"));
+    }
+
+    @Test
+    public void deleteCandidateTest() {
+        Candidate candidate = new Candidate(5, "Candidate", null);
+        store.saveCandidate(candidate);
+        store.deleteCandidate(candidate.getId());
+        assertNull(store.findByIdCandidate(5));
+    }
+
+    @Test
+    public void saveUserTest() {
+        User user = new User(0,"asd","asdasd",null);
+        store.saveUser(user);
+        assertThat(store.findByEmail("asdasd"),is(user));
     }
 }

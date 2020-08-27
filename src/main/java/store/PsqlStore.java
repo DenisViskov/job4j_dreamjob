@@ -2,6 +2,7 @@ package store;
 
 import model.Candidate;
 import model.Post;
+import model.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.io.BufferedReader;
@@ -290,5 +291,55 @@ public class PsqlStore implements Store {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    /**
+     * Method of save user into DB
+     *
+     * @param user
+     */
+    @Override
+    public void saveUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO user(name,email,password) VALUES (?,?,?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Method looking for user by given email
+     *
+     * @param email
+     * @return user
+     */
+    @Override
+    public User findByEmail(String email) {
+        User result = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM user WHERE email = (?)")) {
+            ps.setString(1, email);
+            ResultSet user = ps.executeQuery();
+            while (user.next()) {
+                result = new User(user.getInt("id"),
+                        user.getString("name"),
+                        user.getString("email"),
+                        user.getString("password"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
     }
 }
