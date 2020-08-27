@@ -2,8 +2,8 @@
   Created by IntelliJ IDEA.
   User: Denis
   Date: 27.08.2020
-  Time: 14:49
-  Page for authorization user
+  Time: 20:56
+  To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="model.Candidate" %>
@@ -49,19 +49,20 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/reg.do">Регистрация</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/login/login.jsp"> <c:out value="${user.name}"/> |
                     Выйти</a>
             </li>
         </ul>
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Авторизация
+                Регистрация
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/auth.do" method="post">
+                <form action="<%=request.getContextPath()%>/reg.do" method="post">
+                    <div class="form-group">
+                        <label>Имя пользователя</label>
+                        <input type="text" class="form-control" name="name">
+                    </div>
                     <div class="form-group">
                         <label>Почта</label>
                         <input type="text" class="form-control" name="email">
@@ -70,7 +71,11 @@
                         <label>Пароль</label>
                         <input type="text" class="form-control" name="password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <div class="form-group">
+                        <label>Подтверждение</label>
+                        <input type="text" class="form-control" name="copy_password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Регистрация</button>
                 </form>
             </div>
         </div>
