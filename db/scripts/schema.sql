@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS candidates;
-DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS client;
 
 CREATE TABLE post (
    id SERIAL PRIMARY KEY,
@@ -13,7 +13,7 @@ CREATE TABLE candidates (
    photo TEXT
 );
 
-CREATE TABLE user (
+CREATE TABLE client (
    id SERIAL PRIMARY KEY,
    name TEXT,
    email TEXT,

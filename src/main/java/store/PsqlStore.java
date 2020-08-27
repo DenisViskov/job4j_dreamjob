@@ -301,7 +301,7 @@ public class PsqlStore implements Store {
     @Override
     public void saveUser(User user) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO user(name,email,password) VALUES (?,?,?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO client(name,email,password) VALUES (?,?,?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, user.getName());
@@ -328,7 +328,7 @@ public class PsqlStore implements Store {
     public User findByEmail(String email) {
         User result = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("SELECT * FROM user WHERE email = (?)")) {
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM client WHERE email = (?)")) {
             ps.setString(1, email);
             ResultSet user = ps.executeQuery();
             while (user.next()) {
