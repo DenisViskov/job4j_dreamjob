@@ -2,6 +2,7 @@ package store;
 
 import model.Candidate;
 import model.Post;
+import model.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.io.BufferedReader;
@@ -290,5 +291,15 @@ public class PsqlStore implements Store {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    @Override
+    public void saveUser(User user) {
+
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return null;
     }
 }

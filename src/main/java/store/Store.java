@@ -2,6 +2,7 @@ package store;
 
 import model.Candidate;
 import model.Post;
+import model.User;
 
 import java.util.Collection;
 
@@ -63,4 +64,18 @@ public interface Store {
      * @param id
      */
     void deleteCandidate(int id);
+
+    /**
+     * Method should save user to store
+     *
+     * @param user
+     */
+    void saveUser(User user);
+
+    /**
+     * Method should return user from store by given email
+     * @param email
+     * @return User
+     */
+    User findByEmail(String email);
 }
