@@ -16,6 +16,6 @@ CREATE TABLE candidates (
 CREATE TABLE client (
    id SERIAL PRIMARY KEY,
    name TEXT,
-   email TEXT,
+   email TEXT UNIQUE,
    password TEXT
 );
