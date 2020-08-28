@@ -176,6 +176,6 @@ public class MemStore implements Store {
         return users.values().stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst()
-                .get();
+                .orElseGet(null);
     }
 }
