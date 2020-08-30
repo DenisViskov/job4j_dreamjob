@@ -170,9 +170,12 @@ public class MemStore implements Store {
      */
     @Override
     public User findByEmail(String email) {
+        if (users.isEmpty()) {
+            return null;
+        }
         return users.values().stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst()
-                .get();
+                .orElseGet(() -> null);
     }
 }
