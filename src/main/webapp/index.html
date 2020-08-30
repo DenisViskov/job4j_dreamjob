@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            var name = $('#name').val();
+            var lastname = $('#lastname').val();
+            if (name == '') {
+                alert("please fill name field");
+            }
+            if (lastname == '') {
+                alert("please fill last name field");
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -22,16 +34,16 @@
         <input type="text" class="form-control" id="lastname">
     </div>
     <div class="form-group">
-    <input type="radio" id="male" name="gender" value="male">
-    <label for="male">Male</label>
-    <input type="radio" id="female" name="gender" value="female">
-    <label for="female">Female</label>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
     </div>
     <div class="form-group">
         <label for="description">Description:</label><br>
         <textarea id="description" name="description" rows="4" cols="50"></textarea>
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default" onclick="return validate();">Submit</button>
 </form>
 
 <div class=“container d-flex justify-content-start”>
