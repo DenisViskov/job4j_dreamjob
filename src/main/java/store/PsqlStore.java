@@ -4,6 +4,8 @@ import model.Candidate;
 import model.Post;
 import model.User;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -26,6 +28,11 @@ import java.util.Properties;
 public class PsqlStore implements Store {
 
     /**
+     * Logger
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(PsqlStore.class);
+
+    /**
      * Pool of connection
      */
     private final BasicDataSource pool = new BasicDataSource();
@@ -37,11 +44,13 @@ public class PsqlStore implements Store {
         )) {
             cfg.load(io);
         } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
             throw new IllegalStateException(e);
         }
         try {
             Class.forName(cfg.getProperty("jdbc.driver"));
         } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
             throw new IllegalStateException(e);
         }
         pool.setDriverClassName(cfg.getProperty("jdbc.driver"));
@@ -89,7 +98,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return posts;
     }
@@ -113,7 +122,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return candidates;
     }
@@ -151,7 +160,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return post;
     }
@@ -168,6 +177,7 @@ public class PsqlStore implements Store {
             ps.setInt(2, post.getId());
             ps.executeUpdate();
         } catch (SQLException throwables) {
+            LOG.error(throwables.getSQLState(),throwables);
             throwables.printStackTrace();
         }
     }
@@ -192,6 +202,7 @@ public class PsqlStore implements Store {
                         null);
             }
         } catch (SQLException throwables) {
+            LOG.error(throwables.getSQLState(),throwables);
             throwables.printStackTrace();
         }
         return result;
@@ -231,7 +242,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return candidate;
     }
@@ -249,6 +260,7 @@ public class PsqlStore implements Store {
             ps.setInt(3, candidate.getId());
             ps.executeUpdate();
         } catch (SQLException throwables) {
+            LOG.error(throwables.getSQLState(),throwables);
             throwables.printStackTrace();
         }
     }
@@ -272,6 +284,7 @@ public class PsqlStore implements Store {
                         candidate.getString("photo"));
             }
         } catch (SQLException throwables) {
+            LOG.error(throwables.getSQLState(),throwables);
             throwables.printStackTrace();
         }
         return result;
@@ -289,6 +302,7 @@ public class PsqlStore implements Store {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException throwables) {
+            LOG.error(throwables.getSQLState(),throwables);
             throwables.printStackTrace();
         }
     }
@@ -314,7 +328,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -338,6 +352,7 @@ public class PsqlStore implements Store {
                         user.getString("password"));
             }
         } catch (SQLException throwables) {
+            LOG.error(throwables.getSQLState(),throwables);
             throwables.printStackTrace();
         }
         return result;
