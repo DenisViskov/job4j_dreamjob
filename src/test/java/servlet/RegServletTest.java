@@ -27,7 +27,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class RegServletTest {
 
     @Test
-    public void doPostTest() throws ServletException, IOException {
+    public void doPostRegTest() throws ServletException, IOException {
         Store store = MemStore.instOf();
         mockStatic(PsqlStore.class);
         when(PsqlStore.instOf()).thenReturn(store);
