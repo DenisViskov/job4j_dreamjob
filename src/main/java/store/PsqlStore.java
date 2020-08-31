@@ -177,7 +177,7 @@ public class PsqlStore implements Store {
             ps.setInt(2, post.getId());
             ps.executeUpdate();
         } catch (SQLException throwables) {
-            LOG.error(throwables.getSQLState(),throwables);
+            LOG.error(throwables.getSQLState(), throwables);
             throwables.printStackTrace();
         }
     }
@@ -202,7 +202,7 @@ public class PsqlStore implements Store {
                         null);
             }
         } catch (SQLException throwables) {
-            LOG.error(throwables.getSQLState(),throwables);
+            LOG.error(throwables.getSQLState(), throwables);
             throwables.printStackTrace();
         }
         return result;
@@ -260,7 +260,7 @@ public class PsqlStore implements Store {
             ps.setInt(3, candidate.getId());
             ps.executeUpdate();
         } catch (SQLException throwables) {
-            LOG.error(throwables.getSQLState(),throwables);
+            LOG.error(throwables.getSQLState(), throwables);
             throwables.printStackTrace();
         }
     }
@@ -284,7 +284,7 @@ public class PsqlStore implements Store {
                         candidate.getString("photo"));
             }
         } catch (SQLException throwables) {
-            LOG.error(throwables.getSQLState(),throwables);
+            LOG.error(throwables.getSQLState(), throwables);
             throwables.printStackTrace();
         }
         return result;
@@ -302,7 +302,7 @@ public class PsqlStore implements Store {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException throwables) {
-            LOG.error(throwables.getSQLState(),throwables);
+            LOG.error(throwables.getSQLState(), throwables);
             throwables.printStackTrace();
         }
     }
@@ -327,8 +327,8 @@ public class PsqlStore implements Store {
                     user.setId(id.getInt(1));
                 }
             }
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
+        } catch (SQLException throwables){
+            LOG.error(throwables.getMessage(), throwables);
         }
     }
 
@@ -352,7 +352,7 @@ public class PsqlStore implements Store {
                         user.getString("password"));
             }
         } catch (SQLException throwables) {
-            LOG.error(throwables.getSQLState(),throwables);
+            LOG.error(throwables.getSQLState(), throwables);
             throwables.printStackTrace();
         }
         return result;
