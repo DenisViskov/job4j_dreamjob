@@ -14,7 +14,6 @@
     function sendGreeting() {
         $.ajax({
             type: 'GET',
-            crossdomain: true,
             url: 'http://localhost:8080/items/greet',
             data: 'name=' + $('#exampleInputEmail1').val(),
             dataType: 'text'
