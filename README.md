@@ -3,7 +3,7 @@ In that project has realized example of simple web application about job.<br/>
  Used technologies:<br/>
  1.Apache Tomcat<br/>
  2.Postgres SQL<br/>
- 3.Liquidbase library for DB<br/>
+ 3.Liquibase library for DB<br/>
  4.JS,AJAX,JSP (front)<br/>
  5.Logging system Slf4j with log4j<br/>
  6.Mockito with PowerMock for test cases<br/>
