@@ -18,8 +18,7 @@
             data: {name: $('#exampleInputEmail1').val()},
             dataType: 'json'
         }).done(function (data) {
-            var message = JSON.parse(data);
-            $('#emailForm div:first').before(`<p>` + message + `</p>`);
+            $('#emailForm div:first').before(`<p>` + JSON.stringify(data) + `</p>`);
         }).fail(function (err) {
             alert(err);
         });
