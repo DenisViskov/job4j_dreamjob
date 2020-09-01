@@ -35,6 +35,7 @@ public class RegServlet extends HttpServlet {
             result.setEmail(email);
             result.setPassword(password);
             store.saveUser(result);
+            doGet(req,resp);
         } else {
             req.setAttribute("error", "Пароли не совпадают, или такой пользователь уже существует");
             req.getRequestDispatcher("/registration/reg.jsp").forward(req, resp);

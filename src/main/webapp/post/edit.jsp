@@ -30,7 +30,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Работа мечты</title>
 </head>
 <body>
@@ -41,6 +41,31 @@
         post = PsqlStore.instOf().findById(Integer.valueOf(id));
     }
 %>
+<script>
+    function validate() {
+        var name = $('#postName').val();
+        if (name == '') {
+            alert("Please fill form field");
+            return false;
+        }
+        return true;
+    }
+
+    function sendPost() {
+        if (validate()) {
+            $.ajax({
+                type: 'POST',
+                url: '<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>',
+                data: 'name=' + $('#postName').val(),
+                dataType: 'text',
+            }).done(function (data) {
+                alert(data);
+            }).fail(function (err) {
+                alert(err);
+            });
+        }
+    }
+</script>
 <div class="container pt-3">
     <div class="row">
         <ul class="nav">
@@ -57,7 +82,8 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/login/login.jsp"> <c:out value="${user.name}"/> |
+                <a class="nav-link" href="<%=request.getContextPath()%>/login/login.jsp"> <c:out value="${user.name}"/>
+                    |
                     Выйти</a>
             </li>
         </ul>
@@ -70,12 +96,12 @@
                 <% } %>
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
+                <form>
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>" id="postName">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary" onclick="sendPost()">Сохранить</button>
                 </form>
             </div>
         </div>

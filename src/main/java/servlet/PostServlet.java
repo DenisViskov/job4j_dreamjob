@@ -38,6 +38,6 @@ public class PostServlet extends HttpServlet {
                         LocalDateTime.now()
                 )
         );
-        resp.sendRedirect(req.getContextPath() + "/posts.do");
+        resp.getOutputStream().println("Post was been added");
     }
 }
