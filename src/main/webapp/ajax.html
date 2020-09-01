@@ -15,10 +15,11 @@
         $.ajax({
             type: 'GET',
             url: 'http://localhost:8080/items/greet',
-            data: 'name=' + $('#exampleInputEmail1').val(),
-            dataType: 'text'
+            data: {name: $('#exampleInputEmail1').val()},
+            dataType: 'json'
         }).done(function (data) {
-            $('#emailForm div:first').before(`<p>` + data + `</p>`);
+            var message = JSON.parse(data);
+            $('#emailForm div:first').before(`<p>` + message + `</p>`);
         }).fail(function (err) {
             alert(err);
         });
