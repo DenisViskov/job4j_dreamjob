@@ -8,7 +8,7 @@
     <title>AJAX</title>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <script>
     function sendGreeting() {
@@ -17,19 +17,20 @@
             url: 'http://localhost:8080/items/greet',
             data: 'name=' + $('#exampleInputEmail1').val(),
             dataType: 'text'
-        }).done(function(data) {
-            alert(data);
-        }).fail(function(err){
+        }).done(function (data) {
+            $('#emailForm div:first').before(`<p>` + data + `</p>`);
+        }).fail(function (err) {
             alert(err);
         });
     }
 </script>
 
 <div class="container">
-    <form>
+    <form id="emailForm">
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                   placeholder="Enter email">
         </div>
         <button type="button" class="btn btn-primary" onclick="sendGreeting()">Submit</button>
     </form>

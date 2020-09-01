@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
+ * Class is a Greeting servlet
+ *
  * @author Денис Висков
  * @version 1.0
  * @since 31.08.2020
