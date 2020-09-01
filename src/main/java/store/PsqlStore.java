@@ -327,7 +327,8 @@ public class PsqlStore implements Store {
                     user.setId(id.getInt(1));
                 }
             }
-        } catch (SQLException throwables){
+        } catch (SQLException throwables) {
+            LOG.error("That user already exists");
             LOG.error(throwables.getMessage(), throwables);
         }
     }
