@@ -42,7 +42,7 @@ public class CandidateServlet extends HttpServlet {
                 new Candidate(Integer.valueOf(value.get("id")),
                         value.get("name"),
                         value.get("file")));
-        resp.sendRedirect(req.getContextPath() + "/candidates.do");
+        resp.getOutputStream().println("Candidate was been added");
     }
 
     /**

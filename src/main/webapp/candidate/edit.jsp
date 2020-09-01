@@ -31,7 +31,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Работа мечты</title>
 </head>
 <body>
@@ -42,6 +42,38 @@
         candidate = PsqlStore.instOf().findByIdCandidate(Integer.valueOf(id));
     }
 %>
+<script>
+    function validate() {
+        var name = $('#candidateName').val();
+        var file = $('#fileCandidate').val();
+        if (name == '' || file == '') {
+            alert("Please fill the form field and upload photo")
+            return false;
+        }
+        return true;
+    }
+
+    function sendData() {
+        if (validate()) {
+            var name = $('#candidateName').val();
+            var $file = $('#fileCandidate');
+            var fd = new FormData;
+            fd.append("name", name);
+            fd.append("file", $file.prop('files')[0]);
+            $.ajax({
+                url: "<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>",
+                data: fd,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        }
+    }
+</script>
+
 <div class="container pt-3">
     <div class="row">
         <ul class="nav">
@@ -58,7 +90,8 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/login/login.jsp"> <c:out value="${user.name}"/> |
+                <a class="nav-link" href="<%=request.getContextPath()%>/login/login.jsp"> <c:out value="${user.name}"/>
+                    |
                     Выйти</a>
             </li>
         </ul>
@@ -71,16 +104,16 @@
                 <% } %>
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>"
-                      method="post" enctype="multipart/form-data">
+                <form>
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>"
+                               id="candidateName">
                     </div>
                     <div class="checkbox">
-                        <input type="file" name="file">
+                        <input type="file" name="file" id="fileCandidate">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary" onclick="sendData()">Сохранить</button>
                 </form>
             </div>
         </div>
