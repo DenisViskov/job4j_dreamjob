@@ -1,6 +1,7 @@
 package servlet;
 
 import model.Post;
+import org.json.JSONObject;
 import store.PsqlStore;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -30,6 +32,8 @@ public class PostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        resp.setContentType("json");
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
         PsqlStore.instOf().save(
                 new Post(
                         Integer.valueOf(req.getParameter("id")),
@@ -38,6 +42,9 @@ public class PostServlet extends HttpServlet {
                         LocalDateTime.now()
                 )
         );
-        resp.getOutputStream().println("Post was been added");
+        JSONObject json = new JSONObject();
+        json.put("answer", "post was been added");
+        writer.println(json);
+        writer.flush();
     }
 }

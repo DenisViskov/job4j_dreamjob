@@ -56,10 +56,10 @@
             $.ajax({
                 type: 'POST',
                 url: '<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>',
-                data: 'name=' + $('#postName').val(),
-                dataType: 'text',
+                data: {name: $('#postName').val()},
+                dataType: 'json',
             }).done(function (data) {
-                alert(data);
+                alert(data['answer']);
             }).fail(function (err) {
                 alert(err);
             });
