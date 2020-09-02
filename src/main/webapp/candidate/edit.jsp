@@ -43,6 +43,21 @@
     }
 %>
 <script>
+    window.onload = function getContent() {
+        $.ajax({
+            type: 'GET',
+            url: '<%=request.getContextPath()%>/candidates.do',
+            data: {request: 'from edit jsp'},
+            dataType: "json"
+        }).done(function (data) {
+            for (var key in data) {
+                console.log(data[key]);
+            }
+        }).fail(function (err) {
+            alert(err);
+        });
+    }
+
     function validate() {
         var name = $('#candidateName').val();
         var file = $('#fileCandidate').val();

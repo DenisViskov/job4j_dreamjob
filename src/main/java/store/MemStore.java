@@ -178,4 +178,9 @@ public class MemStore implements Store {
                 .findFirst()
                 .orElseGet(() -> null);
     }
+
+    @Override
+    public Collection<String> getCities() {
+        return null;
+    }
 }

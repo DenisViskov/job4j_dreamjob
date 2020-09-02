@@ -5,17 +5,18 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.JSONObject;
 import store.PsqlStore;
+import store.Store;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,10 @@ public class CandidateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getParameter("request").equals("from edit jsp")) {
+            responseToEditJSP(resp);
+            return;
+        }
         req.setAttribute("candidates", PsqlStore.instOf().findAllCandidates());
         req.setAttribute("user", req.getSession().getAttribute("user"));
         req.getRequestDispatcher("candidate/candidates.jsp").forward(req, resp);
@@ -86,5 +91,23 @@ public class CandidateServlet extends HttpServlet {
         return Map.of("id", req.getParameter("id"),
                 "name", name,
                 "file", file.getName());
+    }
+
+    /**
+     * Method send response to edit JSP
+     *
+     * @param resp
+     * @throws IOException
+     */
+    private void responseToEditJSP(HttpServletResponse resp) throws IOException {
+        resp.setContentType("json");
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        List<String> cities = new ArrayList<>(PsqlStore.instOf().getCities());
+        JSONObject json = new JSONObject();
+        for (int i = 0; i < cities.size(); i++) {
+            json.put(String.valueOf(i), cities.get(i));
+        }
+        writer.println(json);
+        writer.flush();
     }
 }

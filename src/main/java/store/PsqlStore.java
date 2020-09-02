@@ -9,10 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -355,6 +352,27 @@ public class PsqlStore implements Store {
                         user.getString("name"),
                         user.getString("email"),
                         user.getString("password"));
+            }
+        } catch (SQLException throwables) {
+            LOG.error(throwables.getSQLState(), throwables);
+            throwables.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Method return all cities from DB
+     *
+     * @return collection
+     */
+    @Override
+    public Collection<String> getCities() {
+        List<String> result = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             Statement st = cn.createStatement()) {
+            ResultSet cities = st.executeQuery("SELECT * FROM city");
+            while (cities.next()) {
+                result.add(cities.getString("name"));
             }
         } catch (SQLException throwables) {
             LOG.error(throwables.getSQLState(), throwables);
