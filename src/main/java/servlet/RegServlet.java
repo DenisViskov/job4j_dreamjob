@@ -24,6 +24,7 @@ public class RegServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text");
         Store store = PsqlStore.instOf();
         String name = req.getParameter("name");
         String email = req.getParameter("email");
@@ -35,7 +36,7 @@ public class RegServlet extends HttpServlet {
             result.setEmail(email);
             result.setPassword(password);
             store.saveUser(result);
-            doGet(req,resp);
+            resp.getOutputStream().println("Welcome");
         } else {
             req.setAttribute("error", "Пароли не совпадают, или такой пользователь уже существует");
             req.getRequestDispatcher("/registration/reg.jsp").forward(req, resp);
