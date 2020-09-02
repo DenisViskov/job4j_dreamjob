@@ -28,8 +28,35 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <title>Работа мечты</title>
+    <script>
+        function validate() {
+            var email = $('#email').val();
+            var password = $('#pass').val();
+            if (email == '' || password == '') {
+                alert("Please fill form field");
+                return false;
+            }
+            return true;
+        }
+
+        function sendPost() {
+            if (validate()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '<%=request.getContextPath()%>/auth.do',
+                    data: $('#form').serialize(),
+                    dataType: 'text',
+                }).done(function (data) {
+                    alert(data);
+                }).fail(function (err) {
+                    alert(err);
+                });
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="container pt-3">
@@ -52,7 +79,8 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/reg.do">Регистрация</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/login/login.jsp"> <c:out value="${user.name}"/> |
+                <a class="nav-link" href="<%=request.getContextPath()%>/login/login.jsp"> <c:out value="${user.name}"/>
+                    |
                     Выйти</a>
             </li>
         </ul>
@@ -61,16 +89,16 @@
                 Авторизация
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/auth.do" method="post">
+                <form id="form">
                     <div class="form-group">
                         <label>Почта</label>
-                        <input type="text" class="form-control" name="email">
+                        <input type="text" class="form-control" name="email" id="email">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                        <input type="text" class="form-control" name="password">
+                        <input type="text" class="form-control" name="password" id="pass">
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <button type="submit" class="btn btn-primary" onclick="sendPost()">Войти</button>
                 </form>
             </div>
         </div>
