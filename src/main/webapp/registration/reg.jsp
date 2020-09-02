@@ -50,9 +50,9 @@
                     type: 'POST',
                     url: '<%=request.getContextPath()%>/reg.do',
                     data: $('#form').serialize(),
-                    dataType: 'text',
+                    dataType: 'json',
                 }).done(function (data) {
-                    alert(data);
+                    alert(data['answer']);
                 }).fail(function (err) {
                     alert(err);
                 });

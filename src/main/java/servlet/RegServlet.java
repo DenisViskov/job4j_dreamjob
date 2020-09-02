@@ -1,6 +1,7 @@
 package servlet;
 
 import model.User;
+import org.json.JSONObject;
 import store.PsqlStore;
 import store.Store;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @author Денис Висков
@@ -24,7 +26,9 @@ public class RegServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text");
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
         Store store = PsqlStore.instOf();
         String name = req.getParameter("name");
         String email = req.getParameter("email");
@@ -36,7 +40,10 @@ public class RegServlet extends HttpServlet {
             result.setEmail(email);
             result.setPassword(password);
             store.saveUser(result);
-            resp.getOutputStream().println("Welcome");
+            JSONObject json = new JSONObject();
+            json.put("answer", "Welcome");
+            writer.println(json);
+            writer.flush();
         } else {
             req.setAttribute("error", "Пароли не совпадают, или такой пользователь уже существует");
             req.getRequestDispatcher("/registration/reg.jsp").forward(req, resp);
