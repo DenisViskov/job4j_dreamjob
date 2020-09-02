@@ -118,7 +118,8 @@ public class PsqlStore implements Store {
                 while (it.next()) {
                     candidates.add(new Candidate(it.getInt("id"),
                             it.getString("name"),
-                            it.getString("photo")));
+                            it.getString("photo"),
+                            it.getString("city")));
                 }
             }
         } catch (Exception e) {
@@ -230,11 +231,12 @@ public class PsqlStore implements Store {
      */
     private Candidate create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidates(name,photo) VALUES (?,?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidates(name,photo,city) VALUES (?,?,?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getPhoto());
+            ps.setString(3, candidate.getCity());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -254,10 +256,11 @@ public class PsqlStore implements Store {
      */
     private void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("UPDATE candidates SET name = (?),SET photo = (?), WHERE id = (?)")) {
+             PreparedStatement ps = cn.prepareStatement("UPDATE candidates SET name = (?),SET photo = (?),SET city = (?), WHERE id = (?)")) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getPhoto());
-            ps.setInt(3, candidate.getId());
+            ps.setString(3, candidate.getCity());
+            ps.setInt(4, candidate.getId());
             ps.executeUpdate();
         } catch (SQLException throwables) {
             LOG.error(throwables.getSQLState(), throwables);
@@ -281,7 +284,8 @@ public class PsqlStore implements Store {
             while (candidate.next()) {
                 result = new Candidate(candidate.getInt("id")
                         , candidate.getString("name"),
-                        candidate.getString("photo"));
+                        candidate.getString("photo"),
+                        candidate.getString("city"));
             }
         } catch (SQLException throwables) {
             LOG.error(throwables.getSQLState(), throwables);

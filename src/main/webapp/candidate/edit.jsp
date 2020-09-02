@@ -37,7 +37,7 @@
 <body>
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "", null);
+    Candidate candidate = new Candidate(0, "", null, null);
     if (id != null) {
         candidate = PsqlStore.instOf().findByIdCandidate(Integer.valueOf(id));
     }
@@ -61,7 +61,7 @@
             fd.append("name", name);
             fd.append("file", $file.prop('files')[0]);
             $.ajax({
-                url: "<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>",
+                url: '<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>',
                 data: fd,
                 processData: false,
                 contentType: false,

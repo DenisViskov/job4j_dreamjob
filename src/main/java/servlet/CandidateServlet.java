@@ -41,7 +41,8 @@ public class CandidateServlet extends HttpServlet {
         PsqlStore.instOf().saveCandidate(
                 new Candidate(Integer.valueOf(value.get("id")),
                         value.get("name"),
-                        value.get("file")));
+                        value.get("file"),
+                        value.get("city")));
         resp.getOutputStream().println("Candidate was been added");
     }
 
