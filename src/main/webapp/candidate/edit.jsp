@@ -50,9 +50,13 @@
             data: {request: 'from edit jsp'},
             dataType: "json"
         }).done(function (data) {
+            let head = '<label for="cities">Выберите город:</label>' +
+                '<select id="city" name="city">';
             for (var key in data) {
-                console.log(data[key]);
+                head += '<option value=' + data[key] + '>' + data[key] + '</option>';
             }
+            head += '</select><br>';
+            $('#divName label:first').before(head);
         }).fail(function (err) {
             alert(err);
         });
@@ -71,9 +75,11 @@
     function sendData() {
         if (validate()) {
             var name = $('#candidateName').val();
+            var city = $('#city').val();
             var $file = $('#fileCandidate');
             var fd = new FormData;
             fd.append("name", name);
+            fd.append("city", city);
             fd.append("file", $file.prop('files')[0]);
             $.ajax({
                 url: '<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>',
@@ -120,7 +126,7 @@
             </div>
             <div class="card-body">
                 <form>
-                    <div class="form-group">
+                    <div class="form-group" id="divName">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>"
                                id="candidateName">

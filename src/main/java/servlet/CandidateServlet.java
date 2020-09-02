@@ -31,7 +31,7 @@ public class CandidateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("request").equals("from edit jsp")) {
+        if (req.getParameter("request") != null) {
             responseToEditJSP(resp);
             return;
         }
@@ -67,6 +67,7 @@ public class CandidateServlet extends HttpServlet {
         factory.setRepository(repository);
         ServletFileUpload upload = new ServletFileUpload(factory);
         String name = "";
+        String city = "";
         File file = null;
         try {
             List<FileItem> items = upload.parseRequest(req);
@@ -84,13 +85,17 @@ public class CandidateServlet extends HttpServlet {
                 if ("name".equals(item.getFieldName())) {
                     name = item.getString();
                 }
+                if ("city".equals(item.getFieldName())) {
+                    city = item.getString();
+                }
             }
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
         return Map.of("id", req.getParameter("id"),
                 "name", name,
-                "file", file.getName());
+                "file", file.getName(),
+                "city", city);
     }
 
     /**
