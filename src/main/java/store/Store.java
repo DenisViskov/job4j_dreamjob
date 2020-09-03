@@ -79,4 +79,11 @@ public interface Store {
      * @return User
      */
     User findByEmail(String email);
+
+    /**
+     * Method should return all cities from store
+     *
+     * @return collection
+     */
+    Collection<String> getCities();
 }

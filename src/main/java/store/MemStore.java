@@ -57,9 +57,9 @@ public class MemStore implements Store {
         posts.put(1, new Post(1, "Junior Java Job", null, LocalDateTime.now()));
         posts.put(2, new Post(2, "Middle Java Job", null, LocalDateTime.now()));
         posts.put(3, new Post(3, "Senior Java Job", null, LocalDateTime.now()));
-        candidates.put(1, new Candidate(1, "Junior Java", null));
-        candidates.put(2, new Candidate(2, "Middle Java", null));
-        candidates.put(3, new Candidate(3, "Senior Java", null));
+        candidates.put(1, new Candidate(1, "Junior Java", null,null));
+        candidates.put(2, new Candidate(2, "Middle Java", null,null));
+        candidates.put(3, new Candidate(3, "Senior Java", null,null));
     }
 
     /**
@@ -177,5 +177,10 @@ public class MemStore implements Store {
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst()
                 .orElseGet(() -> null);
+    }
+
+    @Override
+    public Collection<String> getCities() {
+        return null;
     }
 }

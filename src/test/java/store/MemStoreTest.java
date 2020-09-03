@@ -22,7 +22,7 @@ public class MemStoreTest {
 
     @Test
     public void saveCandidateTest() {
-        Candidate candidate = new Candidate(0, "Ivan", null);
+        Candidate candidate = new Candidate(0, "Ivan", null,null);
         store.saveCandidate(candidate);
         boolean result = store.findAllCandidates().contains(candidate);
         assertThat(result, is(true));
@@ -38,7 +38,7 @@ public class MemStoreTest {
 
     @Test
     public void findByIdCandidateTest() {
-        Candidate candidate = new Candidate(5, "Candidate", null);
+        Candidate candidate = new Candidate(5, "Candidate", null,null);
         store.saveCandidate(candidate);
         Candidate expected = store.findByIdCandidate(5);
         assertThat(expected.getName(), is("Candidate"));
@@ -46,7 +46,7 @@ public class MemStoreTest {
 
     @Test
     public void deleteCandidateTest() {
-        Candidate candidate = new Candidate(5, "Candidate", null);
+        Candidate candidate = new Candidate(5, "Candidate", null,null);
         store.saveCandidate(candidate);
         store.deleteCandidate(candidate.getId());
         assertNull(store.findByIdCandidate(5));

@@ -26,10 +26,16 @@ public class Candidate {
      */
     private String photo;
 
-    public Candidate(int id, String name, String photo) {
+    /**
+     * City
+     */
+    private String city;
+
+    public Candidate(int id, String name, String photo, String city) {
         this.id = id;
         this.name = name;
         this.photo = photo;
+        this.city = city;
     }
 
     public int getId() {
@@ -50,6 +56,14 @@ public class Candidate {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     @Override
