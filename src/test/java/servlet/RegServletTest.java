@@ -11,13 +11,18 @@ import store.Store;
 import sun.misc.Unsafe;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -37,6 +42,7 @@ public class RegServletTest {
         when(req.getParameter("email")).thenReturn("email@mail.ru");
         when(req.getParameter("password")).thenReturn("password");
         when(req.getParameter("copy_password")).thenReturn("password");
+        when(res.getOutputStream()).thenReturn(mock(ServletOutputStream.class));
         RegServlet servlet = new RegServlet();
         servlet.doPost(req,res);
         assertNotNull(store.findByEmail("email@mail.ru"));

@@ -10,6 +10,7 @@ import store.PsqlStore;
 import store.Store;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,6 +37,7 @@ public class PostServletTest {
         HttpServletResponse res = mock(HttpServletResponse.class);
         when(req.getParameter("id")).thenReturn("0");
         when(req.getParameter("name")).thenReturn("Java jun");
+        when(res.getOutputStream()).thenReturn(mock(ServletOutputStream.class));
         doNothing().when(res).sendRedirect(anyString());
         new PostServlet().doPost(req, res);
         List<Post> expected = new ArrayList<>(store.findAllPosts());
@@ -53,6 +55,7 @@ public class PostServletTest {
         HttpServletResponse res = mock(HttpServletResponse.class);
         when(req.getParameter("id")).thenReturn(String.valueOf(post.getId()));
         when(req.getParameter("name")).thenReturn("Java jun");
+        when(res.getOutputStream()).thenReturn(mock(ServletOutputStream.class));
         doNothing().when(res).sendRedirect(anyString());
         new PostServlet().doPost(req, res);
         assertThat(store.findById(post.getId()).getName(), is("Java jun"));
